@@ -1,6 +1,19 @@
-# airflow_youtube_project
-![Youtube ETL Pipeline](youtube_etl_pipeline.png)
+# Data Engineering using Airflow
 
-In this project, we will set up a daily workflow, using Apache Airflow to retrieve trending videos data from YouTube Data API v3 and store them in BigQuery. We'll also utilize Looker Studio to create an interactive dashboard, enabling us to stay updated with the latest trends on YouTube and gain valuable insights from the collected data.
+## 🗃️ Project Overview: Fetch and Store Youtube Data API
 
-You can find a comprehensive guide of this project in the following article: [Using Airflow And YouTube API To Automatically Retrieve Trending Videos](https://supertype.ai/notes/airflow-trending-youtube-video-project/)
+This project aims to set up a daily workflow using Apache Airflow to retrieve trending videos data from the YouTube Data API v3 and store it in MySQL. 
+
+### Key Features:
+- **Data Retrieval:** Fetches trending videos data from the YouTube Data API v3.
+- **Data Preprocessing:** Preprocesses the fetched data to extract relevant information.
+- **Data Storage:** Stores the preprocessed data in MySQL for further analysis and usage.
+- **Automation:** Set up DAGs (Directed Acyclic Graphs) in Apache Airflow to automate the data retrieval and storage process.
+
+### Technologies Used:
+- **Apache Airflow:** Workflow management system for orchestrating data pipelines.
+- **YouTube Data API v3:** API for accessing and retrieving YouTube data.
+- **Python:** Programming language used for scripting and data manipulation.
+- **MySQL:** Relational database management system for storing the retrieved data.
+
+Stay tuned for updates as we progress with the development and deployment of this data pipeline!
