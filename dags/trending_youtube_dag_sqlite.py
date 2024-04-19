@@ -1,22 +1,22 @@
 from airflow.decorators import dag, task
 from googleapiclient.discovery import build
-from google.cloud import bigquery
-from google.oauth2 import service_account
 import json
 from datetime import datetime, timedelta, timezone
 import isodate
 import os
+import pandas as pd
+import sqlite3
 from dotenv import load_dotenv
 
 default_args = {
-    'owner': 'tmtsmrsl',
+    'owner': 'airflow',
     'retries': 3,
     'retry_delay': timedelta(minutes=5)
 }
 
-@dag(dag_id='trending_youtube_dag_v1',
+@dag(dag_id='trending_youtube_dag_sqlite',
     default_args=default_args,
-    description='A pipeline to fetch trending YouTube videos',
+    description='A pipeline to fetch trending YouTube videos into SQLite db',
     start_date=datetime(2023, 5, 7, tzinfo=timezone(timedelta(hours=7))),
     schedule_interval='0 10 * * *',
     catchup=False)
@@ -130,50 +130,35 @@ def trending_youtube_dag():
             json.dump(videos_list, f)
             
     @task()
-    def load_to_bigquery(source_file_path: str, table_name: str):
+    def load_to_sqlite(source_file_path: str, table_name: str):
         """
-        Loads the processed data to BigQuery.
+        Loads the processed data to SQLite.
         
         Args:
             source_file_path: A string representing the path to the file to be loaded.
             table_name: A string representing the name of the table to load the data to.
         """
         
-        # Set the path to your service account key file
-        key_path = '/opt/airflow/dags/service_account_key.json'
-
-        # Set the credentials using the service account key
-        credentials = service_account.Credentials.from_service_account_file(
-            key_path,
-            scopes=["https://www.googleapis.com/auth/cloud-platform"],
-        )
-
-        # Instantiate the BigQuery client with the credentials
-        client = bigquery.Client(credentials=credentials)
+        # Load the data from the json file to sqlite
+        df = pd.read_json(source_file_path)
+        database = "/opt/airflow/db/airflow.db"
+        conn = sqlite3.connect(database)
         
-        # Refer to the table where the data will be loaded
-        dataset_ref = client.dataset('youtube')
-        table_ref = dataset_ref.table(table_name)
-        table = client.get_table(table_ref)
+        # Append the DataFrame to the existing table if it exists, otherwise create a new table
+        df.to_sql(name=table_name, con=conn, if_exists='append', index=False)
         
-        # Load the data from the json file to BigQuery
-        with open(source_file_path, 'r') as f:
-            json_data = json.load(f)
-        job_config = bigquery.LoadJobConfig()
-        job_config.source_format = bigquery.SourceFormat.NEWLINE_DELIMITED_JSON
-        job = client.load_table_from_json(json_data, table, job_config = job_config)
-        job.result() # Waits for the job to complete
+        conn.close()
     
         # Log the job results
-        print(f"Loaded {job.output_rows} rows to {table.table_id}")
+        print("Done Created DB")
     
     file_path = '/opt/airflow/dags/tmp_file.json'
     fetch_trending_videos_task = fetch_trending_videos(region_code='ID', max_results=200, target_file_path=file_path)
     processed_file_path = '/opt/airflow/dags/tmp_file_processed.json'
     data_processing_task = data_processing(source_file_path=file_path, target_file_path=processed_file_path)
-    load_to_bigquery_task = load_to_bigquery(source_file_path=processed_file_path, table_name='trending_videos')
+    load_to_sqlite_task = load_to_sqlite(source_file_path=processed_file_path, table_name='trending_videos')
     
-    fetch_trending_videos_task >> data_processing_task >> load_to_bigquery_task
+    fetch_trending_videos_task >> data_processing_task >> load_to_sqlite_task
     
 dag = trending_youtube_dag()
         
