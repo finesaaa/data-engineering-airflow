@@ -14,6 +14,6 @@ This project aims to set up a daily workflow using Apache Airflow to retrieve tr
 - **Apache Airflow:** Workflow management system for orchestrating data pipelines.
 - **YouTube Data API v3:** API for accessing and retrieving YouTube data.
 - **Python:** Programming language used for scripting and data manipulation.
-- **MySQL:** Relational database management system for storing the retrieved data.
+- **SQLite:** Relational database management system for storing the retrieved data.
 
 Stay tuned for updates as we progress with the development and deployment of this data pipeline!
