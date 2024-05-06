@@ -18,7 +18,7 @@ default_args = {
     default_args=default_args,
     description='A pipeline to fetch trending YouTube videos into SQLite db',
     start_date=datetime(2023, 5, 7, tzinfo=timezone(timedelta(hours=7))),
-    schedule_interval='0 10 * * *',
+    schedule_interval='10 * * * *',
     catchup=False)
 def trending_youtube_dag():
     @task()
