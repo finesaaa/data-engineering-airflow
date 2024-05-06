@@ -1,0 +1,7 @@
+pandas==2.0.0
+load_dotenv==0.1.0
+isodate==0.6.1
+google-api-python-client==2.127.0
+apache-airflow==2.9.0
+utils==1.0.2
+ipykernel
