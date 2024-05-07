@@ -2,7 +2,7 @@
 
 ## 🗃️ Project Overview: Scheduling Fetch and Store Youtube Data API using Airflow
 
-![image](mindmap.png)
+![image](Data_Engineering_Courses_Mindmap.png)
 
 This project aims to set up a daily workflow using Apache Airflow to retrieve trending videos data from the YouTube Data API v3 and store it in MySQL. 
 
