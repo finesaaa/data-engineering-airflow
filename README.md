@@ -1,6 +1,8 @@
 # Data Engineering using Airflow
 
-## 🗃️ Project Overview: Fetch and Store Youtube Data API
+## 🗃️ Project Overview: Scheduling Fetch and Store Youtube Data API using Airflow
+
+![image](mindmap.png)
 
 This project aims to set up a daily workflow using Apache Airflow to retrieve trending videos data from the YouTube Data API v3 and store it in MySQL. 
 
@@ -15,5 +17,44 @@ This project aims to set up a daily workflow using Apache Airflow to retrieve tr
 - **YouTube Data API v3:** API for accessing and retrieving YouTube data.
 - **Python:** Programming language used for scripting and data manipulation.
 - **SQLite:** Relational database management system for storing the retrieved data.
+
+### Directory Contents
+
+```
+📝 articles
+
+📚 coursebooks
+├──📁 dags
+    ├──📄 .env 
+        Environment file containing YOUTUBE_API_KEY
+    ├──📄 service_account_key.json 
+        Service account key file for YouTube API
+    ├──📄 categories.json 
+        JSON file containing YouTube video categories
+    ├──📄 tmp_file.json 
+        Temporary JSON file
+    ├──📄 tmp_file_processed.json 
+        Processed JSON file
+    ├──📚 **trending_youtube_dag_sqlite.py** 
+        DAG definition for processing trending YouTube data
+├──📁 db 
+    Directory for Airflow database
+├──📁 logs 
+    Directory for Airflow logs
+├──📁 plugins 
+    Directory for Airflow plugins
+├──📄 .env 
+    Environment file containing AIRFLOW_UID=50000
+├──📚 **01_fetch_data_api.ipynb**
+├──📚 **02_airflow_introduction.ipynb**
+├──📚 **03_connect_db_to_airflow.ipynb**
+├──📚 **04_generate_and_run_script.ipynb**
+├──📄 docker-compose.yaml 
+    Docker Compose file for defining Airflow services
+├──📄 Dockerfile 
+    Dockerfile for customizing Airflow image, if needed for install requirements.txt
+├──📄 requirements.txt 
+    Python dependencies for the project
+```
 
 Stay tuned for updates as we progress with the development and deployment of this data pipeline!
