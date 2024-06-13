@@ -4,7 +4,7 @@
 
 ![image](Data_Engineering_Courses.png)
 
-This project aims to set up a daily workflow using Apache Airflow to retrieve trending videos data from the YouTube Data API v3 and store it in MySQL. 
+This courses aims to set up a daily workflow using Apache Airflow to retrieve trending videos data from the YouTube Data API v3 and store it in SQLite3. 
 
 ### Course Mindmap
 
